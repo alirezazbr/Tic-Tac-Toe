@@ -1,0 +1,364 @@
+@import 'https://fonts.googleapis.com/css?family=Lily+Script+One';
+
+body {
+  background-image: url('https://recyclecoach.com/wp-content/themes/twentyseventeen-child/assets/img/residential-bg.svg');
+  background-position: left; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.GamePad {
+    width: 400px;
+    height: 401px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.border-row {
+    width: 100%;
+    height: 125px;
+    margin-top: 8px;
+    padding: 0;
+    float: left;
+    position: relative;
+}
+
+.border-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+
+.square {
+    width: 125px;
+    height: 125px;
+    float: left;
+    background-color: #1486C4;
+    border: 1px solid #1486C4;
+    margin-right: 8px;
+    position: relative;
+    border-radius: 12px;
+    /* z-index: 1; */
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -webkit-transition: transform 1s;
+    -moz-transition: transform 1s;
+    -ms-transition: transform 1s;
+    -o-transition: transform 1s;
+    transition: transform 1s;
+}
+
+.square:focus,
+.update-button,
+.modal-btn {
+outline: none;
+}
+
+.square p {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.modal-btn {
+    width: 350px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #1486C4;
+    background: #FFFFFF;
+    height: 57px;
+    border-radius: 30px;
+    color: #1486C4;
+    font-weight: 900;
+  }
+  
+  .modal-btn.btn-1{
+    top: 50%;
+    font-size: 24px;
+  }
+  
+  .modal-btn.btn-2{
+    top: 70%;
+    font-size: 24px;
+  }
+  
+  .modal-btn.btn-back{
+    border: none;
+    font-size: 20px;
+    top: 86%;
+  }
+  
+  .the-modal-content {
+    font-size: 18px;
+    font-weight: 400;
+    color: #7C7C7C;
+  }
+  
+  .the-modal-title {
+    color: #8F8F8F;
+    font-weight: 800;
+    float: left;
+    font-size: 1.17em;
+  }
+
+  .ans-div {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 50px;
+    font-weight: bold;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 125px;
+    line-height: 125px;
+    height: 125px;
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    margin: 4px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+  }
+
+  .put-image {
+    background-image: url('../../lib/img/correct.png');
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
+  }
+  
+  .ans-div.true{
+    /* display: none; */
+    visibility: hidden;
+    background-color: #82D289;
+    border: 1px solid #82D289;
+    /* z-index: 0; */
+    top: -5px;
+    left: -4px;
+    /* -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-transition: transform 1s;
+    -moz-transition: transform 1s;
+    -ms-transition: transform 1s;
+    -o-transition: transform 1s;
+    transition: transform 1s; */
+  }
+  
+  .ans-div.false{
+    /* display: none; */
+    visibility: hidden;
+    background-color: #EA6C6D;
+    border: 1px solid #EA6C6D;
+    z-index: 0;
+    top: -5px;
+    left: -4px;
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-transition: transform 1s;
+    -moz-transition: transform 1s;
+    -ms-transition: transform 1s;
+    -o-transition: transform 1s;
+    transition: transform 1s;
+  }
+  
+  .img-ans {
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+  }
+
+  .square-shell {
+    position: relative;
+    float: left;
+    border-radius: 12px;
+  }
+
+  .flip-card {
+    background-color: transparent;
+    width: 125px;
+    height: 125px;
+    perspective: 1000px;
+    position: relative;
+    border-radius: 12px;
+    float: left;
+    margin-right: 8px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  /* .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+    border-radius: 12px;
+  } */
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    border-radius: 12px;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .flip-card-front {
+    background-color: #bbb;
+    color: black;
+    border-radius: 12px;
+  }
+
+  .flip-card-back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+    border-radius: 12px;
+  }
+
+  .the-game {
+    /* width: 396px;
+    height: 60px;
+    background-color: #1486C4; */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* text-align: center;
+    border: 2px solid #1486C4;
+    border-radius: 30px;
+    color: white; */
+  }
+
+  .status,
+  .update-button {
+    width: 393px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    border-radius: 30px;
+  }
+  .status {
+    color: white;
+    border: 2px solid #1486C4;
+    top: 115%;
+    background-color: #1486C4;
+  }
+
+  .status h3 {
+    margin-top: 12px;
+  }
+
+  .update-button {
+    top: 132%;
+    border: transparent;
+    border-radius: 30px;
+    color: #1486C4;
+    background-color: transparent;
+  }
+
+
+  .card {
+    position: relative;
+    width: 125px;
+    height: 125px;
+    margin-top: 8px;
+    margin-right: 8px;
+    float: left;
+    perspective: 500px;
+  }
+  
+  .content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  
+    transition: transform 1s;
+    transform-style: preserve-3d;
+  }
+  
+  /* .card:hover .content {
+    transform: rotateY( 180deg ) ;
+    transition: transform 0.5s;
+  } */
+  
+  .front,
+  .back {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #1486C4;
+    line-height: 0;
+    color: white;
+    text-align: center;
+    font-size: 60px;
+    border-radius: 5px;
+    backface-visibility: hidden;
+  }
+  
+  .back {
+    transform: rotateY( 180deg );
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
+  }
+  
+  .back.correct{
+    background-image: url(../../lib/img/correct.png);
+    background-size: 44px;
+  }
+
+  .back.wrong{
+    background-image: url(../../lib/img/wrong.png);
+    background-size: 44px;
+  }
+  
+  .front p {
+    font-size: 29px;
+    font-weight: 700;
+    position: absolute;
+    top: 29%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .the-winner-div {
+    width: 300px;
+    height: 200px;
+    background-color: #E1D9D7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    border: 1px solid #E1D9D7;
+  }
