@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
-import {CalculateWinner} from '../calculate-winner/CalculateWinner';
-import Cell from '../cell/Cell';
+import {CalculateWinner} from '../calculate-winner';
+import Cell from '../cell';
 import '../../lib/style/HoleGame.css';
 
 const customStyles = {

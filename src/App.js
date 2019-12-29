@@ -1,10 +1,10 @@
 import React from 'react';
-import HoleGame from './components/hole-game/HoleGame';
+import WholeGame from './components/whole-game';
 
 function App() {
   return (
     <div className="App">
-      <HoleGame />
+      <WholeGame />
     </div>
   );
 }
