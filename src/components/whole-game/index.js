@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import {CalculateWinner} from '../calculate-winner';
 import Cell from '../cell';
+import data from '../questions-json/questions.json';
 import '../../lib/style/HoleGame.css';
 
 const customStyles = {
@@ -19,54 +20,6 @@ const customStyles = {
         boxShadow: '0px 6px 11px -7px',
     }
 };
-
-const Title = [
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-    'Question copy area',
-];
-
-const Questions = [
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-    ' - Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eimod tempor invidunt ut labore.',
-];
-
-const Answers_A = [
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-    'Answer A',
-];
-
-const Answers_B = [
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-    'Answer B',
-];
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -136,7 +89,6 @@ export default class HoleGame extends React.Component {
             statusOfWin = status;
         }
 
-        console.log(statusOfWin);
         return statusOfWin;
     }
 
@@ -157,19 +109,17 @@ export default class HoleGame extends React.Component {
             y[0].style.transform = 'rotateY(180deg)';
             y[0].style.transition = 'transform 0.5s';
             
-            if(result === 'correct') {
+            if(result === 'true') {
                 squares[i] = 'T';
                 this.setState({
                     state: 'correct',
-                    // ans: 'correct'
                 });
                 z[0].classList.add('correct');
                 z[0].style.backgroundColor = "#82D289";
-            } else if (result === 'wrong') {
+            } else if (result === 'false') {
                 squares[i] = 'F';
                 this.setState({
                     state: 'wrong',
-                    // ans: 'wrong'
                 });
                 z[0].classList.add('wrong');
                 z[0].style.backgroundColor = "#EA6C6D";
@@ -194,10 +144,10 @@ export default class HoleGame extends React.Component {
         const squares = current.squares.slice();
         const winner = CalculateWinner(squares);
 
-        this.state.title = Title[i];
-        this.state.question = Questions[i];
-        this.state.answer_a = Answers_A[i];
-        this.state.answer_b = Answers_B[i];
+        this.state.title = data[i].title;
+        this.state.question = data[i].question;
+        this.state.answer_a = data[i].answer_A;
+        this.state.answer_b = data[i].answer_B;
         cb('correct');
         if (winner || squares[i]) {
             return;
@@ -213,7 +163,7 @@ export default class HoleGame extends React.Component {
     render() {
         let counter_1 = [0,1,2,3,4,5,6,7,8];
         const { question, title, answer_a, answer_b } = this.state;
-        
+        let index = this.state.temp;
         return (
             <div id="container">
                 <div id="gamePad" className="GamePad">
@@ -226,8 +176,8 @@ export default class HoleGame extends React.Component {
                         <p className="the-modal-title" ref={subtitle => this.subtitle = subtitle}>{title}
                             <span className="the-modal-content">{question}</span>
                         </p>
-                        <button className="modal-btn btn-1" onClick={() => this.answer('correct')}>{answer_a}</button>
-                        <button className="modal-btn btn-2" onClick={() => this.answer('wrong')}>{answer_b}</button>
+                        <button className="modal-btn btn-1" onClick={() => this.answer(data[index].type_ans_A)}>{answer_a}</button>
+                        <button className="modal-btn btn-2" onClick={() => this.answer(data[index].type_ans_B)}>{answer_b}</button>
                         <button className="modal-btn btn-back" onClick={this.closeModal}>Back</button>
                     </Modal>
                     <div className="the-game">
