@@ -3,27 +3,11 @@ import Modal from 'react-modal';
 import {CalculateWinner} from '../calculate-winner';
 import Cell from '../cell';
 import data from '../questions-json/questions.json';
-import '../../lib/style/HoleGame.css';
-
-const customStyles = {
-    content: {
-        width: '400px',
-        height: '385px',
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        borderRadius: '10px',
-        backgroundColor: '#FFFFFF',
-        boxShadow: '0px 6px 11px -7px',
-    }
-};
+import '../../lib/style/WholeGame.css';
 
 Modal.setAppElement(document.getElementById('root'));
 
-export default class HoleGame extends React.Component {
+export default class WholeGame extends React.Component {
     constructor(props) {
         super(props);
 
@@ -41,12 +25,16 @@ export default class HoleGame extends React.Component {
             answer_a: null,
             answer_b: null,
             temp: null,
+            counter: 0,
             ans: '',
             modalIsOpen: false,
             history: [
                 { squares: Array(9).fill(null) }
             ],
-            isFlipped: false
+            isFlipped: false,
+            fadeFront: null,
+            time: null,
+            callClear: null,
         }
     }
 
@@ -65,36 +53,8 @@ export default class HoleGame extends React.Component {
         this.setState({ modalIsOpen: false });
     }
 
-    winnerStatus() {
-        const history = this.state.history;
-        const current = history[this.state.stepNumber];
-        const winner = CalculateWinner(current.squares);
-
-        let status, statusOfWin;
-        if (winner) {
-            status = 'Winner is ' + winner;
-            if(winner === 'T'){
-                setTimeout(function() {
-                    alert('You win the game, well done')
-                })
-                statusOfWin = 'YOU WIN';
-            } else if(winner === 'F'){
-                setTimeout(function() {
-                    alert('Unfortunately, you lose the game. Try again')
-                })
-                statusOfWin = 'GAME OVER';
-            }
-        } else {
-            status = 'Next Player is ' + (this.state.xIsNext ? 'X' : 'O');
-            statusOfWin = status;
-        }
-
-        return statusOfWin;
-    }
-
     answer = (result) => {
         let i = this.state.temp;
-
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         let squares = current.squares.slice();
@@ -103,28 +63,37 @@ export default class HoleGame extends React.Component {
             return;
         } else {
             this.closeModal();
-            var y = document.getElementById(i).querySelectorAll('.content');
-            var x = document.getElementById(i);
-            var z = x.querySelectorAll('.back');
-            y[0].style.transform = 'rotateY(180deg)';
-            y[0].style.transition = 'transform 0.5s';
-            
+            var content = document.getElementById(i).querySelectorAll('.content');
+            var id = document.getElementById(i);
+            var back = id.querySelectorAll('.back');
+            var front = id.querySelectorAll('.front');
+            content[0].style.transform = 'rotateY(180deg)';
+            content[0].style.transition = 'transform 0.5s';
+            this.setState({
+                fadeFront: setTimeout(function(){ front[0].classList.add('fade'); }, 200),
+            })
             if(result === 'true') {
                 squares[i] = 'T';
                 this.setState({
                     state: 'correct',
                 });
-                z[0].classList.add('correct');
-                z[0].style.backgroundColor = "#82D289";
+                setTimeout(function(){ 
+                    back[0].style.WebkitBackfaceVisibility = 'visible';
+                    back[0].style.backfaceVisibility = 'visible'; 
+                }, 200);
+                back[0].classList.add('correct');
             } else if (result === 'false') {
                 squares[i] = 'F';
                 this.setState({
                     state: 'wrong',
                 });
-                z[0].classList.add('wrong');
-                z[0].style.backgroundColor = "#EA6C6D";
+                setTimeout(function(){ 
+                    back[0].style.WebkitBackfaceVisibility = 'visible';
+                    back[0].style.backfaceVisibility = 'visible'; 
+                }, 200);
+                back[0].classList.add('wrong');
             }
-
+            
             this.setState({
                 history: history.concat({
                     squares: squares
@@ -137,17 +106,23 @@ export default class HoleGame extends React.Component {
         }
     }
 
+    clearTime = () => {
+        clearTimeout(this.state.time);
+    }
+
     handleClick(i, cb) {
-        this.state.temp = i;
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         const winner = CalculateWinner(squares);
-
-        this.state.title = data[i].title;
-        this.state.question = data[i].question;
-        this.state.answer_a = data[i].answer_A;
-        this.state.answer_b = data[i].answer_B;
+        
+        this.setState({
+            temp: i,
+            title: data[i].title,
+            question: data[i].question,
+            answer_a: data[i].answer_A,
+            answer_b: data[i].answer_B,
+        })
         cb('correct');
         if (winner || squares[i]) {
             return;
@@ -159,18 +134,31 @@ export default class HoleGame extends React.Component {
     update = () => {
         window.location.reload(true);
     }
+
+    
     
     render() {
         let counter_1 = [0,1,2,3,4,5,6,7,8];
         const { question, title, answer_a, answer_b } = this.state;
         let index = this.state.temp;
+
+        const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();
+        const winner = CalculateWinner(squares);
+        if(winner == 'T') {
+            this.state.time =  setTimeout(function() { alert('you win the game.')}, 200);
+        } else if (winner == 'F') {
+            this.state.time = setTimeout(function() { alert('you lose the game!')}, 200);
+        }
+
         return (
             <div id="container">
                 <div id="gamePad" className="GamePad">
                     <Modal
                         isOpen={this.state.modalIsOpen}
                         onRequestClose={this.closeModal}
-                        style={customStyles}
+                        className= "modal"
                         contentLabel="Example Modal"
                     >
                         <p className="the-modal-title" ref={subtitle => this.subtitle = subtitle}>{title}
@@ -189,10 +177,7 @@ export default class HoleGame extends React.Component {
                             })}
                         </div>
                     </div>
-                    <div className="status">
-                        <h3>{this.winnerStatus()}</h3>
-                    </div>
-                    <button className="update-button" onClick={this.update}><h3>Quit</h3></button>
+                    <button className="update-button" onClick={this.update}><h3>Restart</h3></button>
                 </div>
             </div>
         )

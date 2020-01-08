@@ -26,7 +26,7 @@ export default class Cell extends React.Component {
                     <div className="front">
                         <p>{item+1}</p>
                     </div>
-                    <div id className="back" />
+                    <div id className="back"/>
                 </div>
             </div>
         )
