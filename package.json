@@ -13,7 +13,7 @@
     "react-dom": "^16.12.0",
     "react-inner-html": "^1.0.1",
     "react-modal": "^3.11.1",
-    "react-scripts": "3.3.0",
+    "react-scripts": "5.0.1",
     "reactstrap": "^8.2.0",
     "autoprefixer": "^6.5.4"
   },
